@@ -198,13 +198,3 @@ class SnakeGameAI:
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.update()
-
-if __name__=='__main__':
-    game=SnakeGameAI()
-
-    while True:
-        game_over,score=game.play_step()
-        if game_over==True:
-            break
-
-    pygame.quit()
