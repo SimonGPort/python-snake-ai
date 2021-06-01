@@ -50,11 +50,11 @@ class SnakeGameAI:
         #2 move
         self.move(action)
         #3 check if game over
-        reward=0
+        
         if self.collision():
             self.game_over=True
         if self.game_over==True or self.frame_iteration > 100 * len(self.snake):
-            reward= -10
+            self.reward-=10
 
         #4 place new food or just move
         # self.placeFood()
@@ -67,28 +67,28 @@ class SnakeGameAI:
                 self.food=None
                 self.placeFood()
                 self.score +=1
-                reward=10
+                self.reward+=10
             if DirectionTailValue==1:
                 # DirectionTail='RIGHT'
                 self.body.append(self.body[-1]+1)
                 self.food=None
                 self.placeFood()
                 self.score +=1
-                reward=10
+                self.reward+=10
             if DirectionTailValue==-32:
                 # DirectionTail='TOP'
                 self.body.append(self.body[-1]-32)
                 self.food=None
                 self.placeFood()
                 self.score +=1
-                reward=10
+                self.reward+=10
             if DirectionTailValue==32:
                 # DirectionTail='DOWN'
                 self.body.append(self.body[-1]+32)
                 self.food=None
                 self.placeFood()
                 self.score +=1
-                reward=10
+                self.reward+=10
 
         
 
@@ -98,7 +98,7 @@ class SnakeGameAI:
 
         #6 return game over and score
         
-        return self.game_over,self.score, reward
+        return self.game_over,self.score, self.reward
 
     def reset(self):
         # init game state
@@ -109,6 +109,7 @@ class SnakeGameAI:
         self.food=None
         self.placeFood()
         self.frame_iteration=0
+        self.reward=0
 
     def collision(self):
         #hit itself
