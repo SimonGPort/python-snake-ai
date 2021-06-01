@@ -86,9 +86,46 @@ class Agent:
         if LeftSide in game.body:
             dangerLeft=1
         
+        directionLeft=0
+        directionRight=0
+        directionUp=0
+        directionDown=0
 
+        if game.direction=='UP':
+            directionUp=1
+        if game.direction=='DOWN':
+            directionDown=1
+        if game.direction=='LEFT':
+            directionLeft=1
+        if game.direction=='RIGHT':
+            directionRight=1
 
+        foodLeft=0
+        foodRight=0
+        foodUp=0
+        foodDown=0
 
+        rowFood=math.floor(game.food/32)
+        if game.food%32==0:
+            rowFood-=1
+
+        rowHead=math.floor(game.body[0]/32)
+        if game.food%32==0:
+            rowHead-=1
+        
+        if rowFood>rowHead:
+            foodUp=1
+        if rowFood<rowHead:
+            foodUp=1
+        colFood=game.food-(rowFood*32)
+        colHead=game.body[0]-(rowHead*32)
+        if colFood>colHead:
+            foodRight=1
+        if colFood<colHead:
+            foodLeft=1
+
+        state=[dangerStraight,dangerRight,dangerLeft,directionLeft,directionRight,directionUp,directionDown,foodLeft,foodRight,foodUp,foodDown]
+        return np.array(state,dtype=int)
 
 
 
