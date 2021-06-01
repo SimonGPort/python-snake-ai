@@ -19,7 +19,7 @@ BLACK=(0,0,0)
 
 
 
-class SnakeGame:
+class SnakeGameAI:
     def __init__(self,w=640,h=480):
         self.game_over=False
         self.w=w
@@ -27,14 +27,7 @@ class SnakeGame:
         self.display=pygame.display.set_mode((self.w,self.h))
         pygame.display.set_caption("Snake")
         self.clock=pygame.time.Clock()
-
-        # init game state
-        self.score=0
-        # l'array des lives represente la position de chanque morceau du corps, a l'index 0 il y a la tete
-        self.body=[368,367,366]
-        self.direction='RIGHT'
-        self.food=None
-        self.placeFood()
+        self.reset()
 
     def placeFood(self):
         x=random.randint(1,32)
@@ -45,27 +38,24 @@ class SnakeGame:
         else:
             self.food=foodPosition
 
-    def play_step(self):
+    def play_step(self,action):
+        self.frame_iteration+=1
+
         #1 collect user input
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_LEFT:
-                    self.direction='LEFT'
-                if event.key==pygame.K_RIGHT:
-                    self.direction='RIGHT'
-                if event.key==pygame.K_UP:
-                    self.direction='UP'
-                if event.key==pygame.K_DOWN:
-                    self.direction='DOWN'
 
         #2 move
-        self.move()
+        self.move(action)
         #3 check if game over
+        reward=0
         if self.collision():
             self.game_over=True
+        if self.game_over==True or self.frame_iteration > 100 * len(self.snake):
+            reward= -10
+
         #4 place new food or just move
         # self.placeFood()
         if self.body[0]==self.food:
@@ -77,24 +67,28 @@ class SnakeGame:
                 self.food=None
                 self.placeFood()
                 self.score +=1
+                reward=10
             if DirectionTailValue==1:
                 # DirectionTail='RIGHT'
                 self.body.append(self.body[-1]+1)
                 self.food=None
                 self.placeFood()
                 self.score +=1
+                reward=10
             if DirectionTailValue==-32:
                 # DirectionTail='TOP'
                 self.body.append(self.body[-1]-32)
                 self.food=None
                 self.placeFood()
                 self.score +=1
+                reward=10
             if DirectionTailValue==32:
                 # DirectionTail='DOWN'
                 self.body.append(self.body[-1]+32)
                 self.food=None
                 self.placeFood()
                 self.score +=1
+                reward=10
 
         
 
@@ -104,14 +98,47 @@ class SnakeGame:
 
         #6 return game over and score
         
-        return self.game_over,self.score
+        return self.game_over,self.score, reward
+
+    def reset(self):
+        # init game state
+        self.score=0
+        # l'array des lives represente la position de chanque morceau du corps, a l'index 0 il y a la tete
+        self.body=[368,367,366]
+        self.direction='RIGHT'
+        self.food=None
+        self.placeFood()
+        self.frame_iteration=0
 
     def collision(self):
         #hit itself
         return self.body[0] in self.body[1:]
 
-    def move(self):
-        direction=self.direction
+    def move(self,action):
+        #[straight,right,left]
+        #conversion de action vers l'axe direction
+        if action[0]==1:
+            direction=self.direction
+        if action[1]==1:
+            if self.direction=='UP':
+                direction='RIGHT'
+            if self.direction=='RIGHT':
+                direction='DOWN'
+            if self.direction=='DOWN':
+                direction='LEFT'
+            if self.direction=='LEFT':
+                direction='UP'
+        if action[2]==1:
+            if self.direction=='UP':
+                direction='LEFT'
+            if self.direction=='LEFT':
+                direction='DOWN'
+            if self.direction=='DOWN':
+                direction='RIGHT'
+            if self.direction=='RIGHT':
+                direction='UP'
+
+
         body=self.body.copy()
 
         #verification si le mouvement est a l'exterieur
@@ -172,7 +199,7 @@ class SnakeGame:
         pygame.display.update()
 
 if __name__=='__main__':
-    game=SnakeGame()
+    game=SnakeGameAI()
 
     while True:
         game_over,score=game.play_step()
