@@ -8,7 +8,7 @@ font = pygame.font.Font('arial.ttf', 25)
 # ---constantes
 BLOCK_SIZE=20
 
-SPEED=10
+SPEED=100
 
 # rgb colors
 WHITE=(255,255,255)
@@ -53,7 +53,7 @@ class SnakeGameAI:
         
         if self.collision():
             self.game_over=True
-        if self.game_over==True or self.frame_iteration > 100 * len(self.snake):
+        if self.game_over==True or self.frame_iteration > 100 * len(self.body):
             self.reward-=10
 
         #4 place new food or just move
