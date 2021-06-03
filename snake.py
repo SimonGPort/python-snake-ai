@@ -52,7 +52,6 @@ class SnakeGameAI:
         #3 check if game over
         
         if self.collision():
-            print("dead:","collision with himselft")
             self.game_over=True
         if self.game_over==True or self.frame_iteration > 100 * len(self.body):
             self.reward-=10
@@ -120,7 +119,6 @@ class SnakeGameAI:
     def move(self,action):
         #[straight,right,left]
         #conversion de action vers l'axe direction
-        print("action",action)
         if action[0]==1:
             direction=self.direction
         if action[1]==1:
@@ -153,19 +151,15 @@ class SnakeGameAI:
 
         if self.direction=='RIGHT' and self.body[0] in lastCol:
             self.game_over=True
-            print("dead:","collision RIGHT BORDER")
             return
         if self.direction=='LEFT' and self.body[0] in firstCol:
             self.game_over=True
-            print("dead:","collision LEFT BORDER")
             return
         if self.direction=='UP' and self.body[0] in topCol:
             self.game_over=True
-            print("dead:","collision UP BORDER")
             return
         if self.direction=='DOWN' and self.body[0] in downCol:
             self.game_over=True
-            print("dead:","collision DOWN BORDER")
             return
 
         if self.direction=='RIGHT':
