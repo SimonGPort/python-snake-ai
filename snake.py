@@ -8,7 +8,7 @@ font = pygame.font.Font('arial.ttf', 25)
 # ---constantes
 BLOCK_SIZE=20
 
-SPEED=60
+SPEED=10
 
 # rgb colors
 WHITE=(255,255,255)
