@@ -25,6 +25,7 @@ class Agent:
         dangerStraight=0
         dangerRight=0
         dangerLeft=0
+        print("direction:",game.direction)
 
         firstCol=[1,33,65,97,129,161,193,225,257,289,321,353,385,417,449,481,513,545,577,609,641,673,705,737]
         lastCol=[32,64,96,128,160,192,224,256,288,320,352,384,416,448,480,512,544,576,608,640,672,704,736,768]
@@ -121,14 +122,17 @@ class Agent:
         if rowFood<rowHead:
             foodUp=1
         colFood=game.food-(rowFood*32)
+        if colFood==0:
+            colFood=32
         colHead=game.body[0]-(rowHead*32)
+        if colHead==0:
+            colHead=32
         if colFood>colHead:
             foodRight=1
         if colFood<colHead:
             foodLeft=1
 
         state=[dangerStraight,dangerRight,dangerLeft,directionLeft,directionRight,directionUp,directionDown,foodLeft,foodRight,foodUp,foodDown]
-        print("get_state:",state)
         return np.array(state,dtype=int)
 
 

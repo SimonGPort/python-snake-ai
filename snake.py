@@ -8,7 +8,7 @@ font = pygame.font.Font('arial.ttf', 25)
 # ---constantes
 BLOCK_SIZE=20
 
-SPEED=10
+SPEED=20
 
 # rgb colors
 WHITE=(255,255,255)
@@ -52,6 +52,7 @@ class SnakeGameAI:
         #3 check if game over
         
         if self.collision():
+            print("dead:","collision with himselft")
             self.game_over=True
         if self.game_over==True or self.frame_iteration > 100 * len(self.body):
             self.reward-=10
@@ -119,6 +120,7 @@ class SnakeGameAI:
     def move(self,action):
         #[straight,right,left]
         #conversion de action vers l'axe direction
+        print("action",action)
         if action[0]==1:
             direction=self.direction
         if action[1]==1:
@@ -139,7 +141,7 @@ class SnakeGameAI:
                 direction='RIGHT'
             if self.direction=='RIGHT':
                 direction='UP'
-
+        self.direction=direction
 
         body=self.body.copy()
 
@@ -149,27 +151,30 @@ class SnakeGameAI:
         topCol=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]
         downCol=[737,738,739,740,741,742,743,744,745,746,745,746,747,748,749,750,751,752,753,754,755,756,757,758,759,760,761,762,763,764,765,766,767,768]
 
-        if direction=='RIGHT' and self.body[0] in lastCol:
+        if self.direction=='RIGHT' and self.body[0] in lastCol:
             self.game_over=True
+            print("dead:","collision RIGHT BORDER")
             return
-        if direction=='LEFT' and self.body[0] in firstCol:
+        if self.direction=='LEFT' and self.body[0] in firstCol:
             self.game_over=True
+            print("dead:","collision LEFT BORDER")
             return
-        if direction=='UP' and self.body[0] in topCol:
+        if self.direction=='UP' and self.body[0] in topCol:
             self.game_over=True
+            print("dead:","collision UP BORDER")
             return
-        if direction=='DOWN' and self.body[0] in downCol:
+        if self.direction=='DOWN' and self.body[0] in downCol:
             self.game_over=True
+            print("dead:","collision DOWN BORDER")
             return
-        print("pass",body[0])
 
-        if direction=='RIGHT':
+        if self.direction=='RIGHT':
             body[0]=body[0]+1
-        if direction=='LEFT':
+        if self.direction=='LEFT':
             body[0]=body[0]-1
-        if direction=='UP':
+        if self.direction=='UP':
             body[0]=body[0]-32
-        if direction=='DOWN':
+        if self.direction=='DOWN':
             body[0]=body[0]+32
 
         for index, bodyPart in enumerate(self.body):
