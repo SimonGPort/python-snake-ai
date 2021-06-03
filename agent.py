@@ -39,7 +39,7 @@ class Agent:
             if game.direction=='LEFT':
                 dangerRight=1
         if game.body[0] in downCol:
-            if game.direction=='DOWND':
+            if game.direction=='DOWN':
                 dangerStraight=1
             if game.direction=='RIGHT':
                 dangerRight=1
@@ -128,6 +128,7 @@ class Agent:
             foodLeft=1
 
         state=[dangerStraight,dangerRight,dangerLeft,directionLeft,directionRight,directionUp,directionDown,foodLeft,foodRight,foodUp,foodDown]
+        print("get_state:",state)
         return np.array(state,dtype=int)
 
 
@@ -192,7 +193,7 @@ def train():
         if done:
             #train long memory, plot result
             game.reset()
-            agent.n_game+=1
+            agent.n_games+=1
             agent.train_long_memory()
 
             if score > record:

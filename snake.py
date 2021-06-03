@@ -8,7 +8,7 @@ font = pygame.font.Font('arial.ttf', 25)
 # ---constantes
 BLOCK_SIZE=20
 
-SPEED=100
+SPEED=60
 
 # rgb colors
 WHITE=(255,255,255)
@@ -98,7 +98,7 @@ class SnakeGameAI:
 
         #6 return game over and score
         
-        return self.game_over,self.score, self.reward
+        return self.reward, self.game_over, self.score
 
     def reset(self):
         # init game state
@@ -110,6 +110,7 @@ class SnakeGameAI:
         self.placeFood()
         self.frame_iteration=0
         self.reward=0
+        self.game_over=False
 
     def collision(self):
         #hit itself
