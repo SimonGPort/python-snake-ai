@@ -57,7 +57,7 @@ class SnakeGameAI:
 
         if self.frame_iteration > 100 * len(self.body):
             self.game_over=True
-            self.reward= -30
+            self.reward= -10
 
         if self.game_over==True:
             return self.reward, self.game_over,self.score
