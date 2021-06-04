@@ -113,11 +113,11 @@ class Agent:
             rowFood-=1
 
         rowHead=math.floor(game.body[0]/32)
-        if game.food%32==0:
+        if game.body[0]%32==0:
             rowHead-=1
         
         if rowFood>rowHead:
-            foodUp=1
+            foodDown=1
         if rowFood<rowHead:
             foodUp=1
         colFood=game.food-(rowFood*32)
