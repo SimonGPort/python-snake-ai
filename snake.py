@@ -51,10 +51,15 @@ class SnakeGameAI:
         self.move(action)
         #3 check if game over
         
-        if self.collision() or self.frame_iteration > 100 * len(self.body):
+        if self.collision():
             self.game_over=True
-        if self.game_over==True:
             self.reward= -10
+
+        if self.frame_iteration > 100 * len(self.body):
+            self.game_over=True
+            self.reward= -30
+
+        if self.game_over==True:
             return self.reward, self.game_over,self.score
 
         #4 place new food or just move
