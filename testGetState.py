@@ -44,22 +44,22 @@ def get_state(game):
         RightSide=None
         LeftSide=None
 
-        if game['direction']=='RIGHT':
-            StraightSide=game['body'][0]+1
-            RightSide=game['body'][0]+33
-            LeftSide=game['body'][0]-33
-        if game['direction']=='LEFT':
-            StraightSide=game['body'][0]-1
-            RightSide=game['body'][0]-33
-            LeftSide=game['body'][0]+33
-        if game['direction']=='UP':
-            StraightSide=game['body'][0]-33
-            RightSide=game['body'][0]+1
-            LeftSide=game['body'][0]-1
-        if game['direction']=='DOWN':
-            StraightSide=game['body'][0]+33
-            RightSide=game['body'][0]-1
-            LeftSide=game['body'][0]+1
+        if game.direction=='RIGHT':
+            StraightSide=game.body[0]+1
+            RightSide=game.body[0]+32
+            LeftSide=game.body[0]-32
+        if game.direction=='LEFT':
+            StraightSide=game.body[0]-1
+            RightSide=game.body[0]-32
+            LeftSide=game.body[0]+32
+        if game.direction=='UP':
+            StraightSide=game.body[0]-32
+            RightSide=game.body[0]+1
+            LeftSide=game.body[0]-1
+        if game.direction=='DOWN':
+            StraightSide=game.body[0]+32
+            RightSide=game.body[0]-1
+            LeftSide=game.body[0]+1
 
         if StraightSide in game['body']:
             dangerStraight=1
